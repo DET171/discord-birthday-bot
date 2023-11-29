@@ -52,7 +52,7 @@ const sendBirthdayMessage = async (channel, id) => {
 		.setColor('#' + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, '0'))
 		.setTitle('Happy Birthday!')
 		.setDescription(`Happy birthday <@${id}>!`)
-		.setThumbnail(user.avatarURL)
+		.setThumbnail(user.avatarURL())
 		.setImage('https://totalpng.com//public/uploads/preview/birthday-cake-png-with-candle-download-free-2-116516454435ftcobinqs.png')
 		.setTimestamp();
 
