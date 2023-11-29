@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, Events, GatewayIntentBits, ActivityType } = require('discord.js');
+const { Client, Events, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js');
 const schedule = require('node-schedule');
 const birthdays = require('./birthdays.json');
 const dayjs = require('dayjs');
@@ -20,6 +20,7 @@ scheduleRule.tz = 'America/Phoenix';
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildMessages,
 	],
 });
@@ -44,7 +45,18 @@ client.login(process.env.TOKEN);
 
 const sendBirthdayMessage = (channel, id) => {
 	console.log(`Sending birthday message to ${id}`);
-	channel.send(`<@${id}> Happy Birthday!`);
+
+	const user = client.users.cache.get(id);
+
+	const embed = new EmbedBuilder()
+		.setColor('#' + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, '0'))
+		.setTitle('Happy Birthday!')
+		.setDescription(`Happy birthday <@${id}>!`)
+		.setThumbnail(user.avatarURL)
+		.setImage('https://totalpng.com//public/uploads/preview/birthday-cake-png-with-candle-download-free-2-116516454435ftcobinqs.png')
+		.setTimestamp();
+
+	channel.send({ embeds: [embed] });
 };
 
 const job = schedule.scheduleJob(scheduleRule, () => {
