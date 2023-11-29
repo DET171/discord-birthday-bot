@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { Client, Events, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js');
 const schedule = require('node-schedule');
-const birthdays = require('./birthdays.json');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
@@ -60,6 +59,8 @@ const sendBirthdayMessage = (channel, id) => {
 };
 
 const job = schedule.scheduleJob(scheduleRule, () => {
+	const birthdays = require('./birthdays.json');
+
 	const channel = client.channels.cache.get('1136035236988321933');
 	const today = dayjs().tz('MST').format('MM/DD');
 

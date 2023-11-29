@@ -21,7 +21,7 @@ Create a `birthdays.json` file in the root directory and add the following:
 ```json
 [
 	{
-		"id": "John Doe",
+		"id": "<discord-user-id>",
 		"date": "06/09/2004"
 	}
 ]
