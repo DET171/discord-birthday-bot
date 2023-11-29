@@ -1,3 +1,4 @@
+// @ts-check
 require('dotenv').config();
 const { Client, Events, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js');
 const schedule = require('node-schedule');
@@ -42,10 +43,10 @@ client.on(Events.MessageCreate, async (message) => {
 
 client.login(process.env.TOKEN);
 
-const sendBirthdayMessage = (channel, id) => {
+const sendBirthdayMessage = async (channel, id) => {
 	console.log(`Sending birthday message to ${id}`);
 
-	const user = client.users.cache.get(id);
+	const user = await client.users.fetch(id);
 
 	const embed = new EmbedBuilder()
 		.setColor('#' + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, '0'))
@@ -58,7 +59,7 @@ const sendBirthdayMessage = (channel, id) => {
 	channel.send({ embeds: [embed] });
 };
 
-const job = schedule.scheduleJob(scheduleRule, () => {
+const job = schedule.scheduleJob(scheduleRule, async () => {
 	const birthdays = require('./birthdays.json');
 
 	const channel = client.channels.cache.get('1136035236988321933');
@@ -66,7 +67,7 @@ const job = schedule.scheduleJob(scheduleRule, () => {
 
 	for (const user of birthdays) {
 		if (user.date.substring(0, 5) === today) {
-			sendBirthdayMessage(channel, user.id);
+			await sendBirthdayMessage(channel, user.id);
 		}
 	}
 });
