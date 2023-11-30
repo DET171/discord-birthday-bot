@@ -15,6 +15,7 @@ yarn
 Create a `.env` file in the root directory and add the following:
 ```bash
 TOKEN=your-bot-token
+CLIENT_ID=your-application-id
 ```
 
 Create a `birthdays.json` file in the root directory and add the following:
@@ -29,3 +30,11 @@ Create a `birthdays.json` file in the root directory and add the following:
 The JSON file should contain an array of objects with the following properties:
 - `id`: The Discord tag of the person
 - `date`: The date of the person's birthday in the format `MM/DD/YYYY`
+
+## Usage
+Start the bot:
+```bash
+# push slash commands to discord first
+yarn deploy
+yarn start
+```
